@@ -16,8 +16,9 @@ const handleLogout = async (req, res) => {
             res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
             return res.sendStatus(204) //success but no content
         } else {
-            //Delete refresh token in the DB
-            foundUser.refreshToken = '' //update refresh token to none
+            //Delete refresh token from the cookie in the DB
+            //get all refresh token from foundUser that is not equal to the old refresh token from the cookie
+            foundUser.refreshToken = foundUser.refreshToken.filter(rt => rt !== refreshToken) //update refresh token 
             const result = await foundUser.save() //save updated user to mongoDB
             console.log('Logout RES: ', result)
 

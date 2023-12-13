@@ -22,7 +22,8 @@ const userSchema = new Schema(
             type: String,
             required: true
         },
-        refreshToken: String //not required
+        //this will let the user to login in multiple devices by storing refresh token in an array
+        refreshToken: [String] //not required
     }
 )
                                 //User is singular and will find its equivalent plural in the collections in mongoDB
