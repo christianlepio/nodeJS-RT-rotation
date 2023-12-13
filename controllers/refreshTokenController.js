@@ -11,8 +11,11 @@ const handleRefreshToken = async (req, res) => {
         console.log('merong cookies.jwt: ', cookies.jwt)
 
         const refreshToken = cookies.jwt //get value for refreshToken
+        // console.log('res.cookie: ', res)
         //clear or erase cookie (refreshToken) after getting the value of it
         res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
+        
+        console.log('cleared res.cookie: ', req.cookies?.jwt)
 
         //find user if does exist with refreshToken similar to cookie refresh token
                                             //if the property and variable is same put only the variable name
@@ -37,7 +40,7 @@ const handleRefreshToken = async (req, res) => {
                         //if refresh token is not expired 
                         const hackedUser = await User.findOne({ username: decoded.username }).exec()
                         //get all refresh token from foundUser that is not equal to the old refresh token from the cookie
-                        //const newRefreshTokenArray = hackedUser.refreshToken.filter(rt => rt !== refreshToken)
+                        const newRefreshTokenArray = hackedUser.refreshToken.filter(rt => rt !== refreshToken)
                         //remove or erase refresh token from mongo DB with the decoded username
                         hackedUser.refreshToken = []
                         const result = await hackedUser.save()
@@ -95,12 +98,13 @@ const handleRefreshToken = async (req, res) => {
                         //saving refreshToken with current user to users DB
                         foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken] //add newRefreshToken to property (refreshToken array) of current user
                         const result = await foundUser.save() //save updated user to mongoDB
-
+                        
                         //send refresh token to response cookie with http only to not available to JS for much security 
                                                                                     //this is also working in httpOnly
                                                                                     //this is required when working with chrome
                         res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
-
+                        console.log('1 new refresh token: ', result)
+                        console.log('req cookies jwt: ', req.cookies?.jwt)
                         res.json({ roles, accessToken }) //send roles & accessToken as response
                     }
                 }
