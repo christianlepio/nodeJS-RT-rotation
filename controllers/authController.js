@@ -79,8 +79,8 @@ const handleLogin = async (req, res) => {
                                                                                     //this is also working in httpOnly
                                                                                     //this is required when working with chrome
                 res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
-                res.json({ roles, accessToken }) //send roles access token to the client/user
-                console.log('roles: ', roles)
+                res.json({ accessToken }) //send access token to the client/user
+                // console.log('roles: ', roles)
             } else {
                 res.sendStatus(401) //401 status code is unauthorized
             }

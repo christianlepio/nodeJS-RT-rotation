@@ -103,9 +103,9 @@ const handleRefreshToken = async (req, res) => {
                                                                                     //this is also working in httpOnly
                                                                                     //this is required when working with chrome
                         res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
+                        
                         console.log('1 new refresh token: ', result)
-                        console.log('req cookies jwt: ', req.cookies?.jwt)
-                        res.json({ roles, accessToken }) //send roles & accessToken as response
+                        res.json({ accessToken }) //send accessToken as response
                     }
                 }
             )
