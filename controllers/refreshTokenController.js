@@ -62,7 +62,7 @@ const handleRefreshToken = async (req, res) => {
                 async (err, decoded) => {
                     //if foundUser's refresh token expires then remove that refresh token from the database
                     if (err) {
-                        console.log('expired refresh token: ')
+                        console.log('expired refresh token else: ')
                         //set new refresh tokens that is not equal to the expired refresh token from the cookie
                         foundUser.refreshToken = [...newRefreshTokenArray]
                         const result = await foundUser.save()

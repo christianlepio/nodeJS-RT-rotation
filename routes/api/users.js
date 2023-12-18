@@ -7,7 +7,8 @@ const verifyRoles = require('../../middleware/verifyRoles')
 
 router.route('/')
     //only user admin can view all and delete user
-    .get(verifyRoles(ROLES_LIST.Admin), usersController.getAllUsers)
+    .get(usersController.getAllUsers)
+    // .get(verifyRoles(ROLES_LIST.Admin), usersController.getAllUsers)
     .delete(verifyRoles(ROLES_LIST.Admin), usersController.deleteUser)
 
 router.route('/:id')
